@@ -7,10 +7,10 @@ import { Separator } from "@/components/ui/separator";
 import { currentProfile } from "@/lib/current-profile";
 import { db } from "@/lib/db";
 
-import { NavigationAction } from "./action";
-import { NavigationItem } from "./item";
+import { NavigationAction } from "./navigation-action";
+import { NavigationItem } from "./navigation-item";
 
-export async function Sidebar() {
+export async function NavigationSidebar() {
   const profile = await currentProfile();
 
   if (!profile) {
