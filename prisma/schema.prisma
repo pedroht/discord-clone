@@ -18,5 +18,23 @@ model Profile {
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt()
 
+  servers Server[]
+
   @@map("profiles")
+}
+
+model Server {
+  id          String @id @default(uuid())
+  name        String
+  image_url   String @db.Text
+  invite_code String @db.Text
+
+  profile_id String
+  profile    Profile @relation(fields: [profile_id], references: [id], onDelete: Cascade)
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@index([profile_id])
+  @@map("servers")
 }
