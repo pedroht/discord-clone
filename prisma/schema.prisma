@@ -7,3 +7,16 @@ datasource db {
   url          = env("DATABASE_URL")
   relationMode = "prisma"
 }
+
+model Profile {
+  id        String @id @default(uuid())
+  user_id   String @unique
+  name      String
+  image_url String @db.Text
+  email     String @db.Text
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt()
+
+  @@map("profiles")
+}
