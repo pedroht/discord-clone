@@ -18,8 +18,9 @@ model Profile {
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 
-  servers Server[]
-  members Member[]
+  servers  Server[]
+  members  Member[]
+  channels Channel[]
 
   @@map("profiles")
 }
@@ -33,7 +34,8 @@ model Server {
   profile_id String
   profile    Profile @relation(fields: [profile_id], references: [id], onDelete: Cascade)
 
-  members Member[]
+  members  Member[]
+  channels Channel[]
 
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
@@ -64,4 +66,29 @@ model Member {
   @@index([profile_id])
   @@index([server_id])
   @@map("members")
+}
+
+enum ChannelType {
+  TEXT
+  AUDIO
+  VIDEO
+}
+
+model Channel {
+  id   String      @id @default(uuid())
+  name String
+  type ChannelType @default(TEXT)
+
+  profile_id String
+  profile    Profile @relation(fields: [profile_id], references: [id], onDelete: Cascade)
+
+  server_id String
+  server    Server @relation(fields: [server_id], references: [id], onDelete: Cascade)
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@index([server_id])
+  @@index([profile_id])
+  @@map("channels")
 }
