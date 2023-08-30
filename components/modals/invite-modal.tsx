@@ -7,7 +7,6 @@ import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
@@ -60,12 +59,8 @@ export function InviteModal() {
       <DialogContent className="bg-white text-black p-0 overflow-hidden">
         <DialogHeader className="pt-8 px-6">
           <DialogTitle className="text-center text-2xl font-bold">
-            Customize your server
+            Invite Members
           </DialogTitle>
-          <DialogDescription className="text-center text-zinc-500">
-            Giver your server a personality with a name and an image. You can
-            always change it later;
-          </DialogDescription>
         </DialogHeader>
 
         <div className="p-6">
