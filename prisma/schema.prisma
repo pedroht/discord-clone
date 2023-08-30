@@ -16,9 +16,10 @@ model Profile {
   email     String @db.Text
 
   created_at DateTime @default(now())
-  updated_at DateTime @updatedAt()
+  updated_at DateTime @updatedAt
 
   servers Server[]
+  members Member[]
 
   @@map("profiles")
 }
@@ -32,9 +33,35 @@ model Server {
   profile_id String
   profile    Profile @relation(fields: [profile_id], references: [id], onDelete: Cascade)
 
+  members Member[]
+
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 
   @@index([profile_id])
   @@map("servers")
+}
+
+enum MemberRole {
+  ADMIN
+  MODERATOR
+  GUEST
+}
+
+model Member {
+  id   String     @id @default(uuid())
+  role MemberRole @default(GUEST)
+
+  profile_id String
+  profile    Profile @relation(fields: [profile_id], references: [id], onDelete: Cascade)
+
+  server_id String
+  server    Server @relation(fields: [server_id], references: [id], onDelete: Cascade)
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@index([profile_id])
+  @@index([server_id])
+  @@map("members")
 }
