@@ -29,7 +29,7 @@ model Server {
   id          String @id @default(uuid())
   name        String
   image_url   String @db.Text
-  invite_code String @db.Text
+  invite_code String @unique
 
   profile_id String
   profile    Profile @relation(fields: [profile_id], references: [id], onDelete: Cascade)
