@@ -65,6 +65,8 @@ model Member {
   conversationsInitiated Conversation[] @relation("MemberOne")
   conversationsReceived  Conversation[] @relation("MemberTwo")
 
+  directMessages DirectMessage[]
+
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 
@@ -130,8 +132,31 @@ model Conversation {
   member_two_id String
   member_two    Member @relation("MemberTwo", fields: [member_two_id], references: [id], onDelete: Cascade)
 
+  directMessages DirectMessage[]
+
   @@unique([member_one_id, member_two_id])
   @@index([member_one_id])
   @@index([member_two_id])
   @@map("conversations")
+}
+
+model DirectMessage {
+  id      String  @id @default(uuid())
+  content String  @db.Text
+  fileUrl String? @db.Text
+
+  member_id String
+  member    Member @relation(fields: [member_id], references: [id], onDelete: Cascade)
+
+  conversation_id String
+  conversation    Conversation @relation(fields: [conversation_id], references: [id], onDelete: Cascade)
+
+  deleted Boolean @default(false)
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@index([member_id])
+  @@index([conversation_id])
+  @@map("direct_messages")
 }
