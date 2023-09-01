@@ -32,7 +32,6 @@ export function LeaveServerModal() {
 
       onClose();
       router.refresh();
-      router.push("/");
     } catch (error) {
       console.log(error);
     } finally {
