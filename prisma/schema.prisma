@@ -62,6 +62,9 @@ model Member {
 
   messages Message[]
 
+  conversationsInitiated Conversation[] @relation("MemberOne")
+  conversationsReceived  Conversation[] @relation("MemberTwo")
+
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 
@@ -116,4 +119,19 @@ model Message {
   @@index([member_id])
   @@index([channel_id])
   @@map("messages")
+}
+
+model Conversation {
+  id String @id @default(uuid())
+
+  member_one_id String
+  member_one    Member @relation("MemberOne", fields: [member_one_id], references: [id], onDelete: Cascade)
+
+  member_two_id String
+  member_two    Member @relation("MemberTwo", fields: [member_two_id], references: [id], onDelete: Cascade)
+
+  @@unique([member_one_id, member_two_id])
+  @@index([member_one_id])
+  @@index([member_two_id])
+  @@map("conversations")
 }
