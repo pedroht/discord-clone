@@ -13,7 +13,7 @@ import {
   CommandList,
 } from "@/components/ui/command";
 
-type SearchType = "channel" | "member";
+export type SearchType = "channel" | "member";
 
 interface ServerSearchProps {
   data: Array<{
