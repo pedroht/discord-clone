@@ -60,6 +60,8 @@ model Member {
   server_id String
   server    Server @relation(fields: [server_id], references: [id], onDelete: Cascade)
 
+  messages Message[]
+
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 
@@ -85,10 +87,33 @@ model Channel {
   server_id String
   server    Server @relation(fields: [server_id], references: [id], onDelete: Cascade)
 
+  messages Message[]
+
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 
   @@index([server_id])
   @@index([profile_id])
   @@map("channels")
+}
+
+model Message {
+  id      String  @id @default(uuid())
+  content String  @db.Text
+  fileUrl String? @db.Text
+
+  member_id String
+  member    Member @relation(fields: [member_id], references: [id], onDelete: Cascade)
+
+  channel_id String
+  channel    Channel @relation(fields: [channel_id], references: [id], onDelete: Cascade)
+
+  deleted Boolean @default(false)
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@index([member_id])
+  @@index([channel_id])
+  @@map("messages")
 }
