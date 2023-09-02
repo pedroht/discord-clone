@@ -34,6 +34,8 @@ export function useChatQuery({
     return response.json();
   }
 
+  // if websocket is not working change the refetchInterval to 1000
+
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } =
     useInfiniteQuery({
       queryKey: [queryKey],
