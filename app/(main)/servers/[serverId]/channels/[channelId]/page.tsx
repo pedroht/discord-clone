@@ -1,4 +1,5 @@
 import { redirectToSignIn } from "@clerk/nextjs";
+import { ChannelType } from "@prisma/client";
 import { redirect } from "next/navigation";
 
 import { ChatHeader } from "@/components/chat/chat-header";
@@ -45,31 +46,33 @@ export default async function ChannelIdPage({ params }: ChannelIdProps) {
         serverId={channel.server_id}
         type="channel"
       />
-
-      <ChatMessages
-        member={member}
-        name={channel.name}
-        chatId={channel.id}
-        type="channel"
-        apiUrl="/api/messages"
-        socketUrl="/api/socket/messages"
-        socketQuery={{
-          channelId: channel.id,
-          serverId: channel.server_id,
-        }}
-        paramKey="channelId"
-        paramValue={channel.id}
-      />
-
-      <ChatInput
-        name={channel.name}
-        type="channel"
-        apiUrl="/api/socket/messages"
-        query={{
-          channelId: channel.id,
-          serverId: channel.server_id,
-        }}
-      />
+      {channel.type === ChannelType.TEXT && (
+        <>
+          <ChatMessages
+            member={member}
+            name={channel.name}
+            chatId={channel.id}
+            type="channel"
+            apiUrl="/api/messages"
+            socketUrl="/api/socket/messages"
+            socketQuery={{
+              channelId: channel.id,
+              serverId: channel.server_id,
+            }}
+            paramKey="channelId"
+            paramValue={channel.id}
+          />
+          <ChatInput
+            name={channel.name}
+            type="channel"
+            apiUrl="/api/socket/messages"
+            query={{
+              channelId: channel.id,
+              serverId: channel.server_id,
+            }}
+          />
+        </>
+      )}
     </div>
   );
 }
